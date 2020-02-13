@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+  <style>
+  *{font-family:monospace; font-weight: bold;}
+  </style>
+  <head>
+    <title>D&D Character Roller</title>
+  </head>
+  <body>
+    <button type="button" onclick="printSheet(createCharToParam())">Roll</button>
+    <p id="stats1"> </p>
+    <p id="stats2"> </p>
+    <p id="stats3"> </p>
+    <p id="stats4"> </p>
+    <p id="stats5"> </p>
+    <p id="stats6"> </p>
+    <script>
+			function d6() {
+  			return Math.ceil(6 * (1 - Math.random()));
+			}
+			function roll() {
+  			return [d6(), d6(), d6(), d6()];
+			}
+			function statRoll() {
+  			return [roll(), roll(), roll(), roll(), roll(), roll()];
+			}
+			function removeLowest(arr) {
+  			var ar2 = arr;
+  			ar2.sort();
+  			ar2.shift();
+  			return ar2;
+			}
+			function sumArray(arr) {
+  			var sum = 0;
+  			for (var i = 0; i < arr.length; i++) {
+    			sum += arr[i];
+  			}
+  			return sum;
+			}
+			function character() {
+  			var char = statRoll();
+  			return [
+        	[char[0][0], char[0][1], char[0][2], char[0][3], sumArray(removeLowest(char[0]))],
+    			[char[1][0], char[1][1], char[1][2], char[1][3], sumArray(removeLowest(char[1]))],
+    			[char[2][0], char[2][1], char[2][2], char[2][3], sumArray(removeLowest(char[2]))],
+    			[char[3][0], char[3][1], char[3][2], char[3][3], sumArray(removeLowest(char[3]))],
+    			[char[4][0], char[4][1], char[4][2], char[4][3], sumArray(removeLowest(char[4]))],
+    			[char[5][0], char[5][1], char[5][2], char[5][3], sumArray(removeLowest(char[5]))]
+        ];
+			}
+			function statSift(char) {
+  			return [char[0][4], char[1][4], char[2][4], char[3][4], char[4][4], char[5][4]];
+			}
+			function printSheet(char) {
+    		document.getElementById("stats1").innerHTML = 
+    			(char[0][0] + " + " + char[0][1] + " + " + char[0][2] + " + " + char[0][3] + " = " + char[0][4]);
+    		document.getElementById("stats2").innerHTML = 
+    			(char[1][0] + " + " + char[1][1] + " + " + char[1][2] + " + " + char[1][3] + " = " + char[1][4]);
+    		document.getElementById("stats3").innerHTML = 
+    			(char[2][0] + " + " + char[2][1] + " + " + char[2][2] + " + " + char[2][3] + " = " + char[2][4]);
+    		document.getElementById("stats4").innerHTML = 
+    			(char[3][0] + " + " + char[3][1] + " + " + char[3][2] + " + " + char[3][3] + " = " + char[3][4]);
+    		document.getElementById("stats5").innerHTML = 
+    			(char[4][0] + " + " + char[4][1] + " + " + char[4][2] + " + " + char[4][3] + " = " + char[4][4]);
+    		document.getElementById("stats6").innerHTML = 
+    			(char[5][0] + " + " + char[5][1] + " + " + char[5][2] + " + " + char[5][3] + " = " + char[5][4]);
+			}
+			function checkMax(stat) {
+  			return stat === 18;
+			} //sets limit for absolute maximum
+			function checkMin(stat) {
+  			return stat === 3;
+			} //sets limit for absolute minimum
+			function checkLow(stat) {
+  			return stat < 10;
+			} //sets secondary maximum
+			function checkHigh(stat) {
+  			return stat > 14;
+			} //sets secondary minimum
+			function createCharToParam() {
+  			var char = character();
+  			/*while((statSift(char).filter(checkMax).length < 2) || (statSift(char).filter(checkLow).length < 2)){
+    			char = character();
+  			}*/ // can be used to filter out undesired rolls
+  			return char;
+			}
+  	</script>
+  </body>
+</html>
