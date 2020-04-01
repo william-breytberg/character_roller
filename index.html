@@ -79,9 +79,9 @@
 	} //sets secondary minimum
 	function createCharToParam() {
   		var char = character();
-  		/*while((statSift(char).filter(checkMax).length < 2) || (statSift(char).filter(checkLow).length < 2)){
+  		while(char[0][4]+char[1][4]+char[2][4]+char[3][4]+char[4][4]+char[5][4]!=75){
     			char = character();
-  		}*/ // can be used to filter out undesired rolls
+  		} // used to filter out undesired rolls
   		return char;
 	}
     </script>
